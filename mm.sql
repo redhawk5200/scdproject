@@ -132,6 +132,7 @@ use myfirstdb
 switch to db myfirstdb
 db.myfirstdb.insert({"name":"aa"}) --onedocument
 db.myfirstdb.insert([ {doc1}, {doc2[{embedded doc}]}])  --embedded
+db.mycollection.remove({'name':'aa'})
 db.dropDatabase()
 
 db.createCollection("myCollection")
