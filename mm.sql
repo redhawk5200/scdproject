@@ -1,41 +1,4 @@
---
-use myfirstdb
-switch to db myfirstdb
-db.myfirstdb.insert({"name":"aa"})
-db.dropDatabase()
-
-db.createCollection("myCollection")
-db.myCollection.drop()
-db.collection_name.insert([{},{}])
-
-db.collection.find().pretty()
-
---
-create table reporter(
-    
-    ddl_date date,
-    user_name varchar(50),
-    obj_type varchar(50),
-    obj_name varchar(50),
-    obj_event varchar(50)
-    
-);
-create or replace trigger audit_hr
-after ddl on schema
-begin
-insert into repoter values(
-sysdate,
-sys_context('USERENV','CURRENT_USER'),
-ora_dict_obj_type,
-ora_dict_obj_name,
-ora_sysevent);
-end;
-create or replace trigger  DDLTrigger  AFTER Create ON DATABASE
-begin
-INSERT INTO employees VALUES (800,'','','','',NULL,NULL,10000,NULL,NULL,90);
-end;
-
---
+--s
 select department_id, count(EMPLOYEE_ID), avg(salary) from employees group by department_id;
 
 select job_id, count(employee_id) from employees group by job_id;
@@ -163,7 +126,47 @@ add foreign key (bus_id) references Bus(bus_id);
 alter table Reservation
 add constraint destination_check check (destination<>'Johar');
 
---
+
+--m
+use myfirstdb
+switch to db myfirstdb
+db.myfirstdb.insert({"name":"aa"}) --onedocument
+db.myfirstdb.insert([ {doc1}, {doc2[{embedded doc}]}])  --embedded
+db.dropDatabase()
+
+db.createCollection("myCollection")
+db.myCollection.drop()
+db.collection_name.insert([{},{}])
+
+db.collection.find().pretty()
+
+--t
+create table reporter(
+    
+    ddl_date date,
+    user_name varchar(50),
+    obj_type varchar(50),
+    obj_name varchar(50),
+    obj_event varchar(50)
+    
+);
+create or replace trigger audit_hr
+after ddl on schema
+begin
+insert into repoter values(
+sysdate,
+sys_context('USERENV','CURRENT_USER'),
+ora_dict_obj_type,
+ora_dict_obj_name,
+ora_sysevent);
+end;
+create or replace trigger  DDLTrigger  AFTER Create ON DATABASE
+begin
+INSERT INTO employees VALUES (800,'','','','',NULL,NULL,10000,NULL,NULL,90);
+end;
+
+
+--pl
 DECLARE 
   emp_id EMPLOYEES.EMPLOYEE_ID%TYPE;
   emp_sal EMPLOYEES.SALARY%TYPE;
