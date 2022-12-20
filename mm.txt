@@ -36,6 +36,28 @@ INSERT INTO employees VALUES (800,'','','','',NULL,NULL,10000,NULL,NULL,90);
 end;
 
 --
+select department_id, count(EMPLOYEE_ID), avg(salary) from employees group by department_id;
+
+select job_id, count(employee_id) from employees group by job_id;
+
+select first_name, hire_date from employees where hire_date > (select hire_date from employees where employee_id = 110);
+
+select department_id from employees group by department_id having max(salary) >= 15000;
+
+select employee_id, first_name || ' ' || last_name, job_id, salary from employees where salary < ANY (select salary from employees where job_id = 'IT_PROG');
+
+select * from employees where employee_id != ALL (select employee_id from job_history);
+
+select manager_id, min(salary) from employees where salary > ALL (select salary from employees where salary <= 2000) and manager_id is not null group by manager_id order by min(salary);
+
+insert into employees_BKP select * from employees where employee_id IN (select employee_id from job_history where start_date = '13-JAN-01');
+
+update employees set salary = salary + (salary*0.2) where employee_id  IN (select employee_id from employees where salary < 6000);
+
+delete from emp_bkp where job_id = 'FI_MGR';
+
+select department_id, count(employee_id) from employees where salary > 20000 group by department_id;
+
 select d.department_name, e.first_name || '' || e.last_name as Fullname, l.city
 from employees e inner join departments d 
 on e.manager_id = d.manager_id
@@ -134,3 +156,9 @@ on e.department_id=d.department_id
 inner join locations l 
 on d.location_id=l.location_id
 where l.country_id='US' and l.state_province <> 'Washington';
+
+alter table Driver
+add foreign key (bus_id) references Bus(bus_id);
+
+alter table Reservation
+add constraint destination_check check (destination<>'Johar');
